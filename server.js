@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dataRoutes from "./routes/dataRoutes.js"
+import mongoose from "mongoose";
+import dbConfig from "./config/dbConfig.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,4 +16,11 @@ app.get("/", (req, res) => {
     res.send('Server is running')
 })
 
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+
+mongoose.connect(dbConfig.url, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+})
+    .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+    .catch(err => console.log(err))
+

@@ -1,6 +1,7 @@
 import express from 'express'
-import { getCurrentData } from "../controllers/data.js"
+import { getCurrentData, addReading } from "../controllers/data.js"
 const router = express.Router();
 
 router.get("/", getCurrentData);
+router.post("/", addReading)
 export default router;
