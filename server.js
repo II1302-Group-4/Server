@@ -4,6 +4,7 @@ import dataRoutes from "./routes/dataRoutes.js"
 import mongoose from "mongoose";
 import dbConfig from "./config/dbConfig.js";
 
+//Port is set depending on production or development environment
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -15,7 +16,6 @@ app.use('/data', dataRoutes);
 app.get("/", (req, res) => {
     res.send('Server is running')
 })
-
 
 mongoose.connect(dbConfig.url, {
     useUnifiedTopology: true,

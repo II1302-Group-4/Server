@@ -1,14 +1,14 @@
-
 import Reading from "../models/reading.js"
 
+//Get latest reading from database.
 export const getCurrentData = async (req, res) => {
     try {
         const data = await Reading.find().sort({ _id: -1 }).limit(1);
-        const { date, chemical, value } = data[0]
+        const { date, VOC, CO2 } = data[0]
         const currentData = {
-            date: date,
-            chemical: chemical,
-            value: value
+            date,
+            VOC,
+            CO2
         }
         res.status(200).json(currentData);
     }
@@ -17,6 +17,9 @@ export const getCurrentData = async (req, res) => {
     }
 }
 
+//Get data in timespan - -- - -
+
+//Add a reading to the database
 export const addReading = async (req, res) => {
     const data = req.body
     const newReading = new Reading(data)

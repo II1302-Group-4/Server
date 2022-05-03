@@ -5,17 +5,14 @@ const readingSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    chemical: {
-        type: String,
-        required: true
+    VOC: {
+        value: Number,
+        unit: String
     },
-    value: {
-        type: Number,
-        required: true
-    },
-
-    //sensorid?
-    //flera chems i samma?
+    CO2: {
+        value: Number,
+        unit: String
+    }
 })
 
 const Reading = mongoose.model("Reading", readingSchema)
