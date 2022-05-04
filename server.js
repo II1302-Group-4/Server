@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dataRoutes from "./routes/dataRoutes.js"
 import mongoose from "mongoose";
-import dbConfig from "./config/dbConfig.js";
+// import dbConfig from "./config/dbConfig.js";
 
 //Port is set depending on production or development environment
 const PORT = process.env.PORT || 5000;
