@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 
 //Port is set depending on production or development environment
 const PORT = process.env.PORT || 5000;
+const dbUrl = process.env.CUSTOMCONNSTR_dbUrl;
+
 
 const app = express();
 app.use(express.json())
@@ -17,7 +19,7 @@ app.get("/", (req, res) => {
     res.send('Server is running')
 })
 
-mongoose.connect("mongodb://pollusense-project-db:BF1HVnjc2chdB6B56VbyDfSpEdYhUNlnmcYhrI1zLsnXhIFfFNlb5BR3B7uszVp2Sviu3ptEiPwwihUsWRunfQ%3D%3D@pollusense-project-db.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@pollusense-project-db@", {
+mongoose.connect(dburl, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 })
