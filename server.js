@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.send('Server is running')
 })
 
-mongoose.connect(dburl, {
+mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 })
