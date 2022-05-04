@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
     res.send('Server is running')
 })
 
-mongoose.connect(dbConfig.url, {
+mongoose.connect("mongodb://pollusense-project-db:BF1HVnjc2chdB6B56VbyDfSpEdYhUNlnmcYhrI1zLsnXhIFfFNlb5BR3B7uszVp2Sviu3ptEiPwwihUsWRunfQ%3D%3D@pollusense-project-db.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@pollusense-project-db@", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 })
