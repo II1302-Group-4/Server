@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 //Endpoint for adding a reading, POST "../data"
 router.post("/", async (req, res) => {
     if (!req.body.VOC || !req.body.CO2) {
-        res.status(409).json({ error: "Data needs to include the parameters VOC and CO2." })
+        res.status(409).json({ message: req.body })
     }
     else if (!req.body.VOC.value || !req.body.VOC.unit) {
         res.status(409).json({ error: "VOC parameter needs to include the fields value and unit." })

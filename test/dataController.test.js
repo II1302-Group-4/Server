@@ -7,7 +7,6 @@ describe("The getCurrentData() function", () => {
         dataDb.getLatestReading = jest.fn(() => [readings[readings.length - 1]])
 
         const currentData = await dataController.getCurrentData();
-        console.log(currentData)
         expect(currentData.date).toBe("2022-05-04")
         expect(currentData.VOC.value).toBe(150)
         expect(currentData.VOC.unit).toBe("ppb")
@@ -20,6 +19,8 @@ describe("The getCurrentData() function", () => {
 //     test("test", () => {
 //         addNewReading = jest.fn((newReading) => readings.append(newReading))
 
+//         const newReading = await dataController
+//         expect()
 //     })
 // })
 
