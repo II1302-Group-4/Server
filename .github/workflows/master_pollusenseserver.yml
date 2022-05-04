@@ -59,4 +59,4 @@ jobs:
           app-name: 'pollusenseserver'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5D072885FCB147CB87C1EA976CF57152 }}
-          package: .
+          package: release.zip
