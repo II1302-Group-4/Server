@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 //Port is set depending on production or development environment
 const PORT = process.env.PORT || 5000;
-const dbUrl = process.env.dbUrl;
+const dbUrl = process.env.CUSTOMCONNSTR_dbUrl;
 
 
 const app = express();
