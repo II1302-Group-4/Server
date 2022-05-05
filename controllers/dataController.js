@@ -13,9 +13,14 @@ export const getCurrentData = async () => {
 }
 
 export const addNewData = async (body) => {
-    const { VOC, CO2 } = body
-    const newReading = await addNewReading({ VOC, CO2 })
-    return newReading;
+    if (body.VOC && body.CO2) {
+        const { VOC, CO2 } = body
+        const newReading = await addNewReading({ VOC, CO2 })
+        return newReading;
+    }
+    else {
+        return null;
+    }
 }
 
 

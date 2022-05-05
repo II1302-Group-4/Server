@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const readingSchema = mongoose.Schema({
     date: {
-        type: String,
-        default: Date()
+        type: Number,
     },
     VOC: {
         value: Number,
@@ -14,6 +13,9 @@ const readingSchema = mongoose.Schema({
         unit: String
     }
 })
+
+//lägg till required
+
 
 const Reading = mongoose.model("Reading", readingSchema)
 
