@@ -13,9 +13,9 @@ export const getCurrentData = async () => {
 }
 
 export const addNewData = async (body) => {
-    if (body.VOC && body.CO2) {
-        const { VOC, CO2 } = body
-        const newReading = await addNewReading({ VOC, CO2 })
+    if (body.VOC && body.CO2 && body.time) {
+        const { VOC, CO2, time } = body
+        const newReading = await addNewReading({ VOC, CO2, time })
         return newReading;
     }
     else {

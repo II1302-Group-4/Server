@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const readingSchema = mongoose.Schema({
-    date: {
+    time: {
         type: Number,
     },
     VOC: {

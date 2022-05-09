@@ -6,7 +6,9 @@ export const getLatestReading = async () => {
 }
 
 export const addNewReading = async (data) => {
+    if (!data) return;
     const newReading = new Reading(data)
+    console.log(newReading)
     await newReading.save();
     return newReading;
 }
