@@ -3,9 +3,9 @@ import { getLatestReading, addNewReading } from "../db/dataDb.js";
 //Get latest reading from database.
 export const getCurrentData = async () => {
     const data = await getLatestReading();
-    const { date, VOC, CO2 } = data[0]
+    const { time, VOC, CO2 } = data[0]
     const dataObject = {
-        date,
+        time,
         VOC,
         CO2
     }
