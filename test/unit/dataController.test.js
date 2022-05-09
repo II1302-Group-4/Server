@@ -14,7 +14,8 @@ describe("The getCurrentData() function", () => {
                 CO2: {
                     value: 250,
                     unit: "ppm"
-                }
+                },
+                time: 1652120680
             },
             {
                 id: 2,
@@ -25,7 +26,8 @@ describe("The getCurrentData() function", () => {
                 CO2: {
                     value: 350,
                     unit: "ppm"
-                }
+                },
+                time: 1652120682
             }
         ]
         dataDb.getLatestReading = jest.fn(() => [readings[readings.length - 1]]);
@@ -54,6 +56,7 @@ describe("The addNewData() function", () => {
         readings = [
             {
                 id: 1,
+                time: 1652120683,
                 VOC: {
                     value: 100,
                     unit: "ppb"
@@ -65,6 +68,7 @@ describe("The addNewData() function", () => {
             },
             {
                 id: 2,
+                time: 1652120684,
                 VOC: {
                     value: 150,
                     unit: "ppb"
@@ -85,13 +89,15 @@ describe("The addNewData() function", () => {
             CO2: {
                 value: 400,
                 unit: "ppm"
-            }
+            },
+            time: 1652120679
         }
         const newReadingFromDatabase = await dataController.addNewData(readingToAdd)
         expect(newReadingFromDatabase.VOC.value).toBe(200)
         expect(newReadingFromDatabase.VOC.unit).toBe("ppb")
         expect(newReadingFromDatabase.CO2.value).toBe(400)
         expect(newReadingFromDatabase.CO2.unit).toBe("ppm")
+        expect(newReadingFromDatabase.time).toBe(1652120679)
         expect(newReadingFromDatabase.id).toBe(3)
         expect(readings.length).toBe(3)
     })
