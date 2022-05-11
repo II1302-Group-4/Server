@@ -20,12 +20,12 @@ router.post("/", async (req, res) => {
     if (!req.body.VOC || !req.body.CO2 || !req.body.time) {
         return res.status(409).json({ error: "Need to include correct parameters." })
     }
-    else if (!req.body.VOC.value || !req.body.VOC.unit) {
-        return res.status(409).json({ error: "VOC parameter needs to include the fields value and unit." })
-    }
-    else if (!req.body.CO2.value || !req.body.CO2.unit) {
-        return res.status(409).json({ error: "CO2 parameter needs to include the fields value and unit." })
-    }
+    // else if (!req.body.VOC.value || !req.body.VOC.unit) {
+    //     return res.status(409).json({ error: "VOC parameter needs to include the fields value and unit." })
+    // }
+    // else if (!req.body.CO2.value || !req.body.CO2.unit) {
+    //     return res.status(409).json({ error: "CO2 parameter needs to include the fields value and unit." })
+    // }
     else {
         try {
             const newReading = await addNewData(req.body)
