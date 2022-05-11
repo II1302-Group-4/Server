@@ -5,12 +5,10 @@ const readingSchema = mongoose.Schema({
         type: Number,
     },
     VOC: {
-        value: Number,
-        unit: String
+        type: Number
     },
     CO2: {
-        value: Number,
-        unit: String
+        type: Number
     }
 })
 
