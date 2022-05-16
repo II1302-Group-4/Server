@@ -6,7 +6,7 @@ describe("Testing the database module", () => {
     let firstReading
     let secondReading
     beforeAll(async () => {
-        await mongoose.connect("mongodb://127.0.0.1:62094/", {
+        await mongoose.connect(global.__MONGO_URI__, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
@@ -42,6 +42,7 @@ describe("Testing the database module", () => {
             await dataDb.addNewReading(reading)
             const allReadings = await Reading.find()
             const newestReading = await dataDb.getLatestReading()
+            console.log("this test runs on github")
             expect(allReadings.length).toBe(3)
             expect(newestReading[0]).toMatchObject(reading)
         })
