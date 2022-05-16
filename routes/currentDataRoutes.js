@@ -1,11 +1,16 @@
 import express from 'express'
-import { getCurrentData, addNewData } from "../controllers/dataController.js"
+import { getCurrentData, addNewData } from "../controller.js"
 
 const router = express.Router();
 
-//Endpoint for getting the latest reading, GET "../data"
-
+/**
+ * 
+ */
 router.get("/", async (req, res) => {
+    const origin = req.headers.origin
+    if (origin !== "http://localhost:3000" && origin !== "https://pollusense.azurewebsites.net") {
+        return res.status(403).json("Restricted")
+    }
     try {
         const currentData = await getCurrentData();
         return res.status(200).json(currentData)
@@ -15,17 +20,13 @@ router.get("/", async (req, res) => {
     }
 });
 
-//Endpoint for adding a reading, POST "../data"
+/**
+ * 
+ */
 router.post("/", async (req, res) => {
     if (!req.body.VOC || !req.body.CO2 || !req.body.time) {
         return res.status(409).json({ error: "Need to include correct parameters." })
     }
-    // else if (!req.body.VOC.value || !req.body.VOC.unit) {
-    //     return res.status(409).json({ error: "VOC parameter needs to include the fields value and unit." })
-    // }
-    // else if (!req.body.CO2.value || !req.body.CO2.unit) {
-    //     return res.status(409).json({ error: "CO2 parameter needs to include the fields value and unit." })
-    // }
     else {
         try {
             const newReading = await addNewData(req.body)

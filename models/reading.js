@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 
+/**
+ * 
+ */
 const readingSchema = mongoose.Schema({
     time: {
-        type: Number,
+        type: Number
     },
     VOC: {
         type: Number
@@ -12,9 +15,6 @@ const readingSchema = mongoose.Schema({
     }
 })
 
-//lägg till required
-
-
 const Reading = mongoose.model("Reading", readingSchema)
 
-export default Reading;
+export default Reading; 
