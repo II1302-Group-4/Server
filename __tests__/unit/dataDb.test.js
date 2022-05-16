@@ -6,7 +6,7 @@ describe("Testing the database module", () => {
     let firstReading
     let secondReading
     beforeAll(async () => {
-        await mongoose.connect(global.__MONGO_URI__, {
+        await mongoose.connect("mongodb://127.0.0.1:62094/", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })

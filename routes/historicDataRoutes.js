@@ -3,7 +3,9 @@ import { getHistoricData } from '../controller.js';
 
 const router = express.Router();
 
-//test
+/**
+ * 
+ */
 router.get("/", async (req, res) => {
     const origin = req.headers.origin
     if (origin !== "http://localhost:3000" && origin !== "https://pollusense.azurewebsites.net") {
