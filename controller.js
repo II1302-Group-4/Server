@@ -38,6 +38,7 @@ export const getHistoricData = async () => {
  */
 export const addNewData = async (body) => {
     if (body.VOC && body.CO2 && body.time) {
+        if (body.time <= 0) throw Error("Time is non-positive")
         const { VOC, CO2, time } = body
         const readingDAO = { VOC, CO2, time }
         const newReading = await addNewReading(readingDAO)
