@@ -2,6 +2,9 @@ import mongoose from "mongoose"
 import Reading from "../../models/reading.js"
 import * as dataDb from "../../dataDb.js"
 
+/**
+ * 
+ */
 describe("Testing the database module", () => {
     let firstReading
     let secondReading
@@ -42,7 +45,6 @@ describe("Testing the database module", () => {
             await dataDb.addNewReading(reading)
             const allReadings = await Reading.find()
             const newestReading = await dataDb.getLatestReading()
-            console.log("this test runs on github")
             expect(allReadings.length).toBe(3)
             expect(newestReading[0]).toMatchObject(reading)
         })

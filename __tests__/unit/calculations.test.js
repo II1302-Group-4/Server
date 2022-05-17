@@ -1,5 +1,8 @@
 import * as calculations from "../../calculations.js"
 
+/**
+ * 
+ */
 describe("The getTimeStampNearestHalfHourRoundedDown() function", () => {
     test("return the correct timestamp with correct input data where the time is past half past", () => {
         const date = new Date("2022-05-13T12:31");
@@ -49,6 +52,9 @@ describe("The getTimeStampNearestHalfHourRoundedDown() function", () => {
 //     })
 // })
 
+/**
+ * 
+ */
 describe("The getStartAndEndTimeStamp() function", () => {
     test("returns the correct timestamps with correct input", () => {
         const input = new Date("2022-05-13T12:00")
@@ -68,6 +74,9 @@ describe("The getStartAndEndTimeStamp() function", () => {
     })
 })
 
+/**
+ * 
+ */
 describe("The calculateHourlyAverage() function", () => {
     let data;
     beforeEach(() => {
@@ -230,61 +239,112 @@ describe("The calculateHourlyAverage() function", () => {
     })
     test("returns the correct values with sufficient input data", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
-        const { binnedData, result } = calculations.calculateHourlyAverage(startTime, endTime, data)
+        const result = calculations.calculateHourly(startTime, endTime, data)
         expect(result.length).toBe(24)
         for (let i = 0; i < result.length; i++) {
             const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
             expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
             expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
-            expect(result[i].time).toBe((binnedData[i].x0 + 1800))
+            expect(result[i].time).toBe(1800 + i * 3600)
         }
     })
     test("returns the correct array even if the last hour does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(data.length - 1, 1)
-        const { binnedData, result } = calculations.calculateHourlyAverage(startTime, endTime, data)
+        const result = calculations.calculateHourly(startTime, endTime, data)
         expect(result.length).toBe(24)
-        expect(result[result.length - 1].VOC).toBe(NaN)
-        expect(result[result.length - 1].CO2).toBe(NaN)
+        expect(result[result.length - 1].VOC).toBe("No data")
+        expect(result[result.length - 1].CO2).toBe("No data")
         expect(result[result.length - 1].time).toBe(endTime - 1800)
         for (let i = 0; i < result.length - 1; i++) {
             const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
             expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
             expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
-            expect(result[i].time).toBe((binnedData[i].x0 + 1800))
+            expect(result[i].time).toBe(1800 + i * 3600)
         }
     })
     test("returns the correct array even if an hour that is not first or last does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(data.length - 5, 1)
-        const { binnedData, result } = calculations.calculateHourlyAverage(startTime, endTime, data)
+        const result = calculations.calculateHourly(startTime, endTime, data)
         expect(result.length).toBe(24)
-        expect(result[result.length - 5].VOC).toBe(NaN)
-        expect(result[result.length - 5].CO2).toBe(NaN)
+        expect(result[result.length - 5].VOC).toBe("No data")
+        expect(result[result.length - 5].CO2).toBe("No data")
         expect(result[result.length - 5].time).toBe(endTime - 4 * 3600 - 1800)
-        for (let i = 0; i < result.length - 1; i++) {
+        for (let i = 0; i < result.length; i++) {
             if (i === result.length - 5) {
                 continue
             }
             const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
             expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
             expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
-            expect(result[i].time).toBe((binnedData[i].x0 + 1800))
+            expect(result[i].time).toBe(1800 + i * 3600)
         }
     })
     test("returns the correct array even if the first hour does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(0, 3)
-        const { binnedData, result } = calculations.calculateHourlyAverage(startTime, endTime, data)
+        const result = calculations.calculateHourly(startTime, endTime, data)
         expect(result.length).toBe(24)
-        expect(result[0].VOC).toBe(NaN)
-        expect(result[0].CO2).toBe(NaN)
+        expect(result[0].VOC).toBe("No data")
+        expect(result[0].CO2).toBe("No data")
         expect(result[0].time).toBe(startTime + 1800)
+        for (let i = 1; i < result.length; i++) {
+            const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
+            expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
+            expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
+            expect(result[i].time).toBe(1800 + i * 3600)
+        }
+    })
+    test("returns the correct array if several hours do not have any readings", () => {
+        const { startTime, endTime } = { startTime: 0, endTime: 86400 }
+        data.splice(data.length - 5, 1)
+        data.splice(data.length - 8, 1)
+        const result = calculations.calculateHourly(startTime, endTime, data)
+        expect(result.length).toBe(24)
+        expect(result[result.length - 5].VOC).toBe("No data")
+        expect(result[result.length - 5].CO2).toBe("No data")
+        expect(result[result.length - 5].time).toBe(endTime - 4 * 3600 - 1800)
+        expect(result[result.length - 9].VOC).toBe("No data")
+        expect(result[result.length - 9].CO2).toBe("No data")
+        expect(result[result.length - 9].time).toBe(endTime - 8 * 3600 - 1800)
+        for (let i = 0; i < result.length; i++) {
+            if (i === result.length - 5 || i === result.length - 9) {
+                continue
+            }
+            const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
+            expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
+            expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
+            expect(result[i].time).toBe(1800 + i * 3600)
+        }
+    })
+    test("returns the correct array if the first and last hours do not have any readings", () => {
+        const { startTime, endTime } = { startTime: 0, endTime: 86400 }
+        data.splice(0, 3)
+        data.splice(data.length - 1, 1)
+        const result = calculations.calculateHourly(startTime, endTime, data)
+        expect(result.length).toBe(24)
+        expect(result[0].VOC).toBe("No data")
+        expect(result[0].CO2).toBe("No data")
+        expect(result[0].time).toBe(1800)
+        expect(result[result.length - 1].VOC).toBe("No data")
+        expect(result[result.length - 1].CO2).toBe("No data")
+        expect(result[result.length - 1].time).toBe(1800 + 3600 * 23)
         for (let i = 1; i < result.length - 1; i++) {
             const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
             expect(result[i].VOC).toBe(relevantReadings.reduce((acc, d) => acc + d.VOC, 0) / relevantReadings.length)
             expect(result[i].CO2).toBe(relevantReadings.reduce((acc, d) => acc + d.CO2, 0) / relevantReadings.length)
-            expect(result[i].time).toBe((binnedData[i].x0 + 1800))
+            expect(result[i].time).toBe(1800 + i * 3600)
         }
+    })
+    test("returns the correct string if there is no input data", () => {
+        const { startTime, endTime } = { startTime: 0, endTime: 86400 }
+        const result = calculations.calculateHourly(startTime, endTime, [])
+        expect(result).toBe("No data for this timespan")
+    })
+    test("returns the string if the timespan is not 24 hours", () => {
+        const { startTime, endTime } = { startTime: 0, endTime: 30000 }
+        const result = calculations.calculateHourly(startTime, endTime, data)
+        expect(result).toBe("Invalid timespan")
     })
 })
