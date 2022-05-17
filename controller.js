@@ -1,9 +1,9 @@
 import { getLatestReading, addNewReading, getAllWithinTimespan } from "./dataDb.js";
-import { calculateHourly, getStartAndEndTimeStamp } from "./calculations.js";
+import { calculateHourlyAverage, getStartAndEndTimeStamp } from "./calculations.js";
 
 /**
- * 
- * @returns 
+ * Gets the latest reading by calling the database module.
+ * @returns The latest reading as a readingDAO object.
  */
 export const getCurrentData = async () => {
     const data = await getLatestReading();
@@ -17,24 +17,29 @@ export const getCurrentData = async () => {
 }
 
 /**
- * 
- * @returns 
+ * Gets the data for the last 24 hours from the database and averages it.
+ * The result has 24 data points.
+ * @returns The averaged data.
  */
 export const getHistoricData = async () => {
+
+    //Demo implementation with mocked data. Will get all data in the timespan 
+    //2021-05-15T01:30 - 2021-05-16T01:30 GMT+2 or
+    //2021-05-14T23:30 - 2021-05-15T23:30 GMT
+    // const { startTime, endTime } = getStartAndEndTimeStamp(new Date("2021-05-16"))
+
     //Real implementation
     const { startTime, endTime } = getStartAndEndTimeStamp(new Date())
 
-    //Demo implementation with mocked data. Will get all data in the timespan 2021-05-14T23:30 - 2021-05-15T23:30
-    // const { startTime, endTime } = getStartAndEndTimeStamp(new Date("2021-05-16"))
     const data = await getAllWithinTimespan(startTime, endTime);
-    const result = calculateHourly(startTime, endTime, data)
+    const result = calculateHourlyAverage(startTime, endTime, data)
     return result;
 }
 
 /**
- * 
- * @param {*} body 
- * @returns 
+ * Adds a new reading to the database by calling the database module.
+ * @param body The body of the POST HTTP request.
+ * @returns The reading added to the database if the input is correctly formatted, otherwise null.
  */
 export const addNewData = async (body) => {
     if (body.VOC && body.CO2 && body.time) {

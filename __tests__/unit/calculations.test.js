@@ -239,7 +239,7 @@ describe("The calculateHourlyAverage() function", () => {
     })
     test("returns the correct values with sufficient input data", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         for (let i = 0; i < result.length; i++) {
             const relevantReadings = data.filter(d => d.time < (i + 1) * 3600 && d.time >= i * 3600)
@@ -251,7 +251,7 @@ describe("The calculateHourlyAverage() function", () => {
     test("returns the correct array even if the last hour does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(data.length - 1, 1)
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         expect(result[result.length - 1].VOC).toBe("No data")
         expect(result[result.length - 1].CO2).toBe("No data")
@@ -266,7 +266,7 @@ describe("The calculateHourlyAverage() function", () => {
     test("returns the correct array even if an hour that is not first or last does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(data.length - 5, 1)
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         expect(result[result.length - 5].VOC).toBe("No data")
         expect(result[result.length - 5].CO2).toBe("No data")
@@ -284,7 +284,7 @@ describe("The calculateHourlyAverage() function", () => {
     test("returns the correct array even if the first hour does not have any readings", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(0, 3)
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         expect(result[0].VOC).toBe("No data")
         expect(result[0].CO2).toBe("No data")
@@ -300,7 +300,7 @@ describe("The calculateHourlyAverage() function", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(data.length - 5, 1)
         data.splice(data.length - 8, 1)
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         expect(result[result.length - 5].VOC).toBe("No data")
         expect(result[result.length - 5].CO2).toBe("No data")
@@ -322,7 +322,7 @@ describe("The calculateHourlyAverage() function", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
         data.splice(0, 3)
         data.splice(data.length - 1, 1)
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result.length).toBe(24)
         expect(result[0].VOC).toBe("No data")
         expect(result[0].CO2).toBe("No data")
@@ -339,12 +339,12 @@ describe("The calculateHourlyAverage() function", () => {
     })
     test("returns the correct string if there is no input data", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 86400 }
-        const result = calculations.calculateHourly(startTime, endTime, [])
+        const result = calculations.calculateHourlyAverage(startTime, endTime, [])
         expect(result).toBe("No data for this timespan")
     })
     test("returns the string if the timespan is not 24 hours", () => {
         const { startTime, endTime } = { startTime: 0, endTime: 30000 }
-        const result = calculations.calculateHourly(startTime, endTime, data)
+        const result = calculations.calculateHourlyAverage(startTime, endTime, data)
         expect(result).toBe("Invalid timespan")
     })
 })

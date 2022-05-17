@@ -1,22 +1,12 @@
-import { bin } from "d3-array"
-
-
-// const timey = (date) => {
-//     date.setHours(date.getHours() - 2)
-//     let sum = 0
-//     sum = sum + (date.getFullYear() - 1970) * (60 * 60 * 24 * 365.25)
-//     sum = sum + (date.getDate() - 1) * (60 * 60 * 24)
-//     sum = sum + (date.getHours()) * (60 * 60)
-//     sum = sum + (date.getMinutes()) * (60)
-//     sum = sum + (date.getSeconds())
-//     sum = sum + (31 + 28 + 31 + 30) * (60 * 60 * 24)
-//     return sum
-// }
 
 /**
+ * Takes a date object and returns the unix timestamp corresponding to the nearest xx:30 mark rounded down.
+ * Example: 
+ * Date object corresponding to 2022-05-15T23:29 gives the timestamp corresponding to 2022-05-15T22:30
+ * Date object corresponding to 2022-05-15T23:31 gives the timestamp corresponding to 2022-05-15T23:30
  * 
- * @param {*} date 
- * @returns 
+ * @param date The date object.
+ * @returns The unix timestamp without milliseconds if the input is a Date object, otherwise null.
  */
 export const getTimeStampNearestHalfHourRoundedDown = (date) => {
     if (date instanceof Date) {
@@ -33,25 +23,12 @@ export const getTimeStampNearestHalfHourRoundedDown = (date) => {
     return null;
 }
 
-// export const getCorrectTime = (reading) => {
-//     if (reading && reading.time) {
-//         const date = new Date(reading.time * 1000)
-//         if (date.getMinutes() < 30) {
-//             date.setMinutes(0)
-//         } else {
-//             date.setHours(date.getHours() + 1)
-//             date.setMinutes(0)
-//         }
-//         date.setSeconds(0)
-//         return date
-//     }
-//     return null;
-// }
-
 /**
- * 
- * @param {*} date 
- * @returns 
+ * Takes a date object and returns an object with two timestamps twenty four hours apart.
+ * The later timestamp is the given date objects nearest half hour rounded down.
+ * The other one is twenty four hours before that.
+ * @param date The date object from which the timestamps are derived.
+ * @returns An object with two timestamps if the input is a date object, otherwise null.
  */
 export const getStartAndEndTimeStamp = (date) => {
     if (date instanceof Date) {
@@ -64,49 +41,15 @@ export const getStartAndEndTimeStamp = (date) => {
 
 /**
  * 
- * @param {*} startTime 
- * @param {*} endTime 
- * @param {*} data 
- * @returns 
+ * @param startTime 
+ * @param endTime 
+ * @param data 
+ * @returns The averaged data. 
+ * If there is no input data, the data is empty or the given startTime is not 24 hours earlier 
+ * than the given endTime a String describing this is returned.
  */
-// export const calculateHourlyAverage = (startTime, endTime, data) => {
-// data = data.filter(d => d.time <= endTime && d.time >= startTime)
-// if (data.length === 0) {
-//     return { binnedData: null, result: "No data for this timespan." }
-// }
-// let thresholds = []
-// for (let i = startTime + 3600; i < endTime; i = i + 3600) {
-//     thresholds.push(i)
-// }
-// const binFunction =
-//     bin()
-//         .value(d => d.time)
-//         .thresholds(thresholds)
-
-//     const binnedData = binFunction(data)
-
-//     const reducer = (array) => {
-//         const t = array.reduce((acc, e) => acc + e.VOC, 0)
-//         const s = array.reduce((acc, e) => acc + e.CO2, 0)
-//         return {
-//             VOC: t / array.length, CO2: s / array.length, time: (binnedData[binnedData.indexOf(array)].x0 + 1800)
-//         }
-//     }
-//     const result = binnedData.map((e) => reducer(e))
-//     if (binnedData[binnedData.length - 1].x0 !== startTime + 3600 * 23) {
-//         result.push({ VOC: NaN, CO2: NaN, time: startTime + 3600 * 23 + 1800 })
-//         binnedData.push({ x0: startTime + 3600 * 23, x1: startTime + 3600 * 23 + 1800 })
-//     }
-//     if (binnedData[0].x0 !== startTime) {
-//         result.unshift({ VOC: NaN, CO2: NaN, time: startTime + 1800 })
-//         binnedData.unshift({ x0: startTime, x1: startTime + 3600 })
-
-//     }
-//     return { binnedData, result }
-// }
-
-export const calculateHourly = (startTime, endTime, data) => {
-    if (data.length === 0 || !data) {
+export const calculateHourlyAverage = (startTime, endTime, data) => {
+    if (!data || data.length === 0) {
         return "No data for this timespan"
     }
     if (endTime <= startTime || (endTime - startTime) / 3600 !== 24) {

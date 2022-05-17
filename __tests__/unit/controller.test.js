@@ -70,9 +70,19 @@ describe("The addNewData() function", () => {
         expect(newReadingFromDatabase.id).toBe(3)
         expect(readings.length).toBe(3)
     })
-    test("with incorrect input data", async () => {
+    test("with input data that does not include the correct parameters", async () => {
         const readingToAdd = {
             VOC: 200
+        }
+        const newReadingFromDatabase = await controller.addNewData(readingToAdd)
+        expect(newReadingFromDatabase).toBe(null)
+        expect(readings.length).toBe(2)
+    })
+    test("with input data where the time field is less than or equal to 0", async () => {
+        const readingToAdd = {
+            VOC: 200,
+            CO2: 400,
+            time: 0
         }
         const newReadingFromDatabase = await controller.addNewData(readingToAdd)
         expect(newReadingFromDatabase).toBe(null)

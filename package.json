@@ -1,9 +1,6 @@
 {
   "name": "server",
   "jest": {
-    "moduleNameMapper": {
-      "d3": "<rootDir>/node_modules/d3-array/dist/d3-array.min.js"
-    },
     "preset": "@shelf/jest-mongodb"
   },
   "version": "1.0.0",
