@@ -17,7 +17,6 @@
   "dependencies": {
     "@shelf/jest-mongodb": "^2.2.2",
     "cors": "^2.8.5",
-    "d3-array": "^3.1.6",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mongoose": "^6.3.1",

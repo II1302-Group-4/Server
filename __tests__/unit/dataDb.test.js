@@ -2,9 +2,6 @@ import mongoose from "mongoose"
 import Reading from "../../models/reading.js"
 import * as dataDb from "../../dataDb.js"
 
-/**
- * 
- */
 describe("Testing the database module", () => {
     let firstReading
     let secondReading

@@ -40,11 +40,14 @@ export const getStartAndEndTimeStamp = (date) => {
 }
 
 /**
- * 
- * @param startTime 
- * @param endTime 
- * @param data 
- * @returns The averaged data. 
+ * Takes an array of readingDAO's and averages them to the corresponding hour stamp. All readings with a timestamp corresponding to
+ * xx:30 - xx:29 will be bunched together and averaged in a new readingDAO with a timestamp of xx:00. The averaged data will have 24 readingDAO's
+ * corresponding to 24 hours. 
+ * For now implemented to only handle a 24 hour timespan.
+ * @param startTime The start of the timespan.
+ * @param endTime The end of the timespan.
+ * @param data The data to be averaged.
+ * @returns The averaged data.  
  * If there is no input data, the data is empty or the given startTime is not 24 hours earlier 
  * than the given endTime a String describing this is returned.
  */
@@ -55,6 +58,7 @@ export const calculateHourlyAverage = (startTime, endTime, data) => {
     if (endTime <= startTime || (endTime - startTime) / 3600 !== 24) {
         return "Invalid timespan"
     }
+    data = data.filter(r => r.time >= startTime && r.time <= endTime)
     let result = []
     let bins = []
     for (let i = 0; i < (endTime - startTime) / 3600; i++) {

@@ -19,11 +19,14 @@ const PORT = process.env.PORT || 5000;
 const dbUrl = process.env.CUSTOMCONNSTR_dbUrl;
 
 /**
- * 
+ * Initializing the Express application.
  */
 const app = express();
+//Allows parsing of JSON objects in the request body.
 app.use(express.json())
+//Sets the behaviour of URL encoding. Allows nested objects. Not needed for now?
 app.use(express.urlencoded({ extended: true }))
+//Allow Cross-origin resource sharing.
 app.use(cors());
 
 /**

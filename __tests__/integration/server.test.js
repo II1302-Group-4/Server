@@ -8,9 +8,6 @@ controller.getCurrentData.mockImplementation(() => { })
 controller.addNewData.mockImplementation(() => { })
 controller.getHistoricData.mockImplementation(() => { })
 
-/**
- * 
- */
 describe("HTTP endpoints", () => {
     describe("GET /data", () => {
         test("is allowed access with the correct origin header", async () => {

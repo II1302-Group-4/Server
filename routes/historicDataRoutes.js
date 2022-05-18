@@ -4,7 +4,10 @@ import { getHistoricData } from '../controller.js';
 const router = express.Router();
 
 /**
- * 
+ * Handles a HTTP GET request to the "<base_URL>/history" endpoint.
+ * Checks the origin of the request to assure that it has the expected source.
+ * Will call the controller which in turn calls the database and the calculations module to return 
+ * the averaged data for the last 24 hours.
  */
 router.get("/", async (req, res) => {
     const origin = req.headers.origin
