@@ -26,10 +26,10 @@ export const getHistoricData = async () => {
     //Demo implementation with mocked data. Will get all data in the timespan 
     //2021-05-15T01:30 - 2021-05-16T01:30 GMT+2 or
     //2021-05-14T23:30 - 2021-05-15T23:30 GMT
-    // const { startTime, endTime } = getStartAndEndTimeStamp(new Date("2021-05-16"))
+    const { startTime, endTime } = getStartAndEndTimeStamp(new Date("2021-05-16"))
 
     //Real implementation
-    const { startTime, endTime } = getStartAndEndTimeStamp(new Date())
+    // const { startTime, endTime } = getStartAndEndTimeStamp(new Date())
 
     const data = await getAllWithinTimespan(startTime, endTime);
     const result = calculateHourlyAverage(startTime, endTime, data)
